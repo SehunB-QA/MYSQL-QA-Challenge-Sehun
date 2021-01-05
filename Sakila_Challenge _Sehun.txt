@@ -1,0 +1,72 @@
+Sehun Babatunde
+
+List all actors. : mysql > select first_name, last_name from actor;
+Find the surname of the actor with the forename 'John'. : mysql> select * from actor  where first_name = 'John'; 
+Answer: John Suvari
+Find all actors with surname 'Neeson'. : mysql> "select * from actor  where last_name = 'neeson';"
+Answer: Christian & Jayne Neeson
+Find all actors with ID numbers divisible by 10. :  Mysql> "SELECT first_name, last_name FROM actor WHERE actor_id % 10 = 0;"
+What is the description of the movie with an ID of 100?: : SELECT * from film where film_id = '100';
+Find every R-rated movie. : SELECT * from film where rating  = 'r'; 
+Answer: 195 films
+Find every non-R-rated movie. : SELECT * from film where rating  != 'r';
+Answer: 805 films.b
+Find the ten shortest movies. : "mysql> SELECT * from film order by length desc limit 10;"
+Find the movies with the longest runtime, without using LIMIT. : SELECT * from film order by length desc ;
+Find all movies that have deleted scenes. : "mysql> Select title from film where special_features='Deleted Scenes';" 
+Answer: 61 films 
+Using HAVING, reverse-alphabetically list the last names that are not repeated. :  "select distinct last_name from actor having  last_name is not null order by last_name desc;"
+Using HAVING, list the last names that appear more than once, from highest to lowest frequency. : "SELECT last_name, COUNT(last_name)
+FROM actor
+GROUP BY last_name
+HAVING COUNT(last_name) > 1
+ORDER BY COUNT(last_name) DESC;"
+
+Answer: 55 films
+
+Which actor has appeared in the most films? : "SELECT film_actor.actor_id, actor_info.first_name, actor_info.last_name, COUNT(film_actor.actor_id) AS films
+FROM film_actor
+JOIN actor_info ON film_actor.actor_id=actor_info.actor_id
+GROUP BY film_actor.actor_id
+ORDER BY COUNT(film_actor.actor_id) DESC
+LIMIT 1;" 
+When is 'Academy Dinosaur' due?: "mysql> select release_year  from film where title = 'Academy Dinosaur';"
+What is the average runtime of all films? : select avg(length) from film;
+List the average runtime for every film category. : select category.name, avg(film.length)
+    -> from category
+    -> join film_category  on film_category.category_id=category.category_id
+    -> join film on film.film_id=film_category.film_id
+    -> group by category.category_id
+    -> order by avg(film.length) desc;
+List all movies featuring a robot. : "mysql> SELECT * FROM film  WHERE description LIKE '%robot%';" 
+Answer: 77 films
+How many movies were released in 2010? : "SELECT * FROM film  WHERE release_year = '2010';" 
+or "SELECT COUNT(*)  FROM film  WHERE release_year = '2010';"
+
+Find the titles of all the horror movies. : SELECT film.title
+FROM category
+JOIN film_category ON film_category.category_id=category.category_id
+JOIN film ON film_category.film_id=film.film_id
+WHERE category.name='Horror';"
+
+List the full name of the staff member with the ID of 2. :  SELECT * FROM staff  WHERE staff_id  = 2;
+List all the movies that Fred Costner has appeared in. : 
+"select film.title
+    -> from film
+    -> join film_actor on film_actor.film_id= film.film_id
+    -> join actor on actor.actor_id=film_actor.actor_id
+    -> where actor.first_name= 'fred' and actor.last_name='costner'" 
+How many distinct countries are there? :  "SELECT DISTINCT country FROM country;" or " SELECT DISTINCT COUNT(country) AS distinct_countries FROM country;
+answer: 109
+List the name of every language in reverse-alphabetical order. : "select name from language order by name desc;"
+List the full names of every actor whose surname ends with '-son' in alphabetical order by their forename. : select first_name, last_name from actor where last_name like '%son' order by first_name ASC;
+9 actors
+
+Which category contains the most films? : SELECT category.name
+FROM category
+JOIN film_category ON film_category.category_id=category.category_id
+GROUP BY category.category_id
+ORDER BY COUNT(film_category.category_id) DESC
+LIMIT 1;
+
+Answer : sport 
